@@ -1,6 +1,6 @@
 # HN
 
-**TODO: Add description**
+WIP: This is experimental package used for learning purposes.
 
 ## Installation
 

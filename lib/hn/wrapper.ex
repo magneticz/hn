@@ -17,7 +17,7 @@ defmodule HN.Wrapper do
   def get_items_async(ids) do
     ids
     |> Enum.map(fn id -> Task.async(fn -> get_item(id) end) end)
-    |> Enum.map(&Task.await/1)
+    |> Enum.map(fn x -> Task.await(x, 10000) end)
   end
 
   def get_items_async(ids, 0), do: get_items_async(ids)
