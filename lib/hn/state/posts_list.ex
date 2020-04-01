@@ -18,7 +18,7 @@ defmodule HN.State.PostsList do
   end
 
   def get_posts() do
-    GenServer.call(@me, :get_posts)
+    GenServer.call(@me, :get_posts, 10000)
   end
 
   def get_latest_post() do

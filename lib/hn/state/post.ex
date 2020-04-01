@@ -22,7 +22,7 @@ defmodule HN.State.Post do
   def get_comments(id, sort_by \\ {"id", :asc}) do
     id
     |> get_pid_from_id()
-    |> GenServer.call(:get_comments)
+    |> GenServer.call(:get_comments, 10000)
     |> sort_items(sort_by)
   end
 
