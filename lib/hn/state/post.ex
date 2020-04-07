@@ -63,7 +63,8 @@ defmodule HN.State.Post do
   end
 
   def handle_call(:get_comments, _from, state) do
-    {:reply, state.comments, state}
+
+    {:reply, Enum.filter(state.comments, fn c -> !c["deleted"] end), state}
   end
 
   def handle_call(:get_post, _from, state) do
