@@ -41,6 +41,7 @@ defmodule HN.Wrapper do
   def get_comments_for_post(post, offset \\ 0, count \\ 0, batch \\ 100) do
     (post["kids"] || [])
     |> get_items_sliced(offset, count, batch)
+    |> Enum.filter(&remove_unusuable/1)
   end
 
   @spec get_items_sliced(any, integer, non_neg_integer, non_neg_integer) :: [any]
@@ -66,6 +67,12 @@ defmodule HN.Wrapper do
   defp remove_deleted(%{"dead" => dead}), do: !dead
   defp remove_deleted(%{"deleted" => deleted}), do: !deleted
   defp remove_deleted(_), do: true
+
+  defp remove_unusuable(%{"id" => id, "type" => type, "by" => by, "time" => time, "text" => text}) do
+    !(is_nil(id) || is_nil(by) || is_nil(time) || is_nil(text)) && type == "comment"
+  end
+
+  defp remove_unusuable(_), do: false
 
   defp slice_offset(items, 0, 0), do: items
   defp slice_offset(items, offset, length), do: Enum.slice(items, offset, length)
